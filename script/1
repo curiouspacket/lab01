@@ -1,0 +1,8 @@
+import re
+
+
+orig = []
+mylines = []
+mywords = []
+with open('~/Ansible/lab01/DeviceInfo/tunnelRouter01', 'r') as f:
+    print(f)

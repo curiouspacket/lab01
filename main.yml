@@ -1,0 +1,35 @@
+---
+- name: Get info
+  hosts: ios
+  gather_facts: false
+  tasks:
+
+    - name: Show Run
+      ios_command:
+        commands: show run 
+      register: runningconfig
+    - name: Debug Show Run
+      debug:
+        msg: "{{ runningconfig.stdout_lines }}"
+
+    - name: Save to File
+      copy:
+        content: |
+               "{{ runningconfig.stdout_lines }}"
+        dest: ~/Ansible/lab01/DeviceInfo/{{inventory_hostname}}.txt
+
+    - name: Show Tunnel
+      ios_command:
+        commands: show run | sec interface Tunnel
+      register: tunnel
+
+    - name: Debug Show Tunnel
+      debug:
+        msg: "{{tunnel.stdout_lines }}"
+
+    - name: Save tunnel info
+      copy:
+        content: |
+               "{{ tunnel.stdout_lines }}"
+
+        dest: ~/Ansible/lab01/DeviceInfo/tunnel{{inventory_hostname}}.txt
